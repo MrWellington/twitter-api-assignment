@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Vanacorps.TwitterClient.HttpClient;
 
 namespace Vanacorps.TwitterClient.API
 {
@@ -32,11 +34,15 @@ namespace Vanacorps.TwitterClient.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vanacorps.TwitterClient.API", Version = "v1" });
             });
+            services.AddHttpClient();
+            services.AddHostedService<StreamingClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logger.LogInformation("Configure method");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
