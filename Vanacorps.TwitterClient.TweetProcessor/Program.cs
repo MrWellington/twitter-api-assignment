@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Vanacorps.TwitterClient.Worker
+namespace Vanacorps.TwitterClient.TweetProcessor
 {
     public class Program
     {
@@ -18,7 +18,7 @@ namespace Vanacorps.TwitterClient.Worker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    // services.AddHostedService<TweetProcessor>();
                 });
     }
 }

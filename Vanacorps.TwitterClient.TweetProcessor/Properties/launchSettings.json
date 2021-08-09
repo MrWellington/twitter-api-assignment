@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "Vanacorps.TwitterClient.Worker": {
+    "Vanacorps.TwitterClient.TweetProcessor": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "environmentVariables": {

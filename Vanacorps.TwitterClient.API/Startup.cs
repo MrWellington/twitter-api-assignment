@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Vanacorps.TwitterClient.HttpClient;
+using Vanacorps.TwitterClient.TweetProcessor;
 
 namespace Vanacorps.TwitterClient.API
 {
@@ -28,13 +30,21 @@ namespace Vanacorps.TwitterClient.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMassTransit(x => 
+            {
+                x.AddConsumer<Processor>();
+                x.UsingInMemory((ctx, cfg) => 
+                {
+                    cfg.ConfigureEndpoints(ctx);
+                });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Vanacorps.TwitterClient.API", Version = "v1" });
             });
             services.AddHttpClient();
+            services.AddMassTransitHostedService(true);
             services.AddHostedService<StreamingClient>();
         }
 

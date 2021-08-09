@@ -3,9 +3,12 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Vanacorps.TwitterClient.Domain;
 
 namespace Vanacorps.TwitterClient.HttpClient
 {
@@ -14,15 +17,17 @@ namespace Vanacorps.TwitterClient.HttpClient
         private readonly ILogger<StreamingClient> _logger;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IConfiguration _configProvider;
+        private readonly IBus _bus;
         private System.Net.Http.HttpClient twitterClient;
         private const int MAX_BACKOFF_INTERVAL_SECONDS = 32;
         private int retrySeconds = 2;
 
-        public StreamingClient(ILogger<StreamingClient> logger, IHttpClientFactory clientFactory, IConfiguration configProvider)
+        public StreamingClient(ILogger<StreamingClient> logger, IHttpClientFactory clientFactory, IConfiguration configProvider, IBus bus)
         {
             _logger = logger;
             _clientFactory = clientFactory;
             _configProvider = configProvider;
+            _bus = bus;
         }
 
         // Establish the Twitter client connection. Called on startup if this class is registered with 'AddHostedService' via DI.
@@ -61,7 +66,15 @@ namespace Vanacorps.TwitterClient.HttpClient
                                     break;
                                 }
 
-                                var sampledTweet = await reader.ReadLineAsync();
+                                var sampledTweetJson = await reader.ReadLineAsync();
+                                Tweet sampledTweet = JsonConvert.DeserializeObject<Tweet>(sampledTweetJson);
+
+                                if (sampledTweet == null)
+                                {
+                                    continue;
+                                }
+
+                                await _bus.Publish(sampledTweet);
                             }
                         }
                     }
