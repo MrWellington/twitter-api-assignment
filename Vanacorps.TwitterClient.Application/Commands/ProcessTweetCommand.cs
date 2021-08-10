@@ -1,19 +1,23 @@
 using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Vanacorps.TwitterClient.Application.Contracts;
 using Vanacorps.TwitterClient.Domain;
 
 namespace Vanacorps.TwitterClient.Application.Commands
 {
-    public class ProcessTweetCommand
+    public class ProcessTweetCommand : ICommand<Tweet>
     {
         private readonly ILogger<ProcessTweetCommand> _logger;
-        public ProcessTweetCommand(ILogger<ProcessTweetCommand> logger)
+        private readonly IProcessedTweetRepository _repository;
+        public ProcessTweetCommand(ILogger<ProcessTweetCommand> logger, IProcessedTweetRepository repository)
         {
             _logger = logger;
+            _repository = repository;
         }
 
-        public static void Execute(Tweet tweet)
+        public async Task ExecuteAsync(Tweet tweet)
         {
             var pt = new ProcessedTweet
             {
@@ -24,14 +28,14 @@ namespace Vanacorps.TwitterClient.Application.Commands
                 ContainsPhotoUrl = HasPhotoUrl(tweet.data.text)
             };
 
-            
+            await _repository.AddTweetAsync(pt);
         }
 
-        private static bool HasEmojis(string message) => RegexHelper.Emoji.IsMatch(message);
+        private bool HasEmojis(string message) => RegexHelper.Emoji.IsMatch(message);
 
-        private static bool HasUrl(string message) => RegexHelper.Url.IsMatch(message);
+        private bool HasUrl(string message) => RegexHelper.Url.IsMatch(message);
 
-        private static bool HasPhotoUrl(string message)
+        private bool HasPhotoUrl(string message)
         {
             var urls = RegexHelper.Url.Matches(message);
 

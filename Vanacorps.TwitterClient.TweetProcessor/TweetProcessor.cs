@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Vanacorps.TwitterClient.Application.Commands;
+using Vanacorps.TwitterClient.Application.Contracts;
 using Vanacorps.TwitterClient.Domain;
 
 namespace Vanacorps.TwitterClient.TweetProcessor
@@ -13,21 +15,19 @@ namespace Vanacorps.TwitterClient.TweetProcessor
     public class Processor : IConsumer<Tweet>
     {
         private readonly ILogger<Processor> _logger;
+        private readonly ICommand<Tweet> _tweetCommand;
 
-        public Processor(ILogger<Processor> logger)
+        public Processor(ILogger<Processor> logger, ICommand<Tweet> tweetCommand)
         {
             _logger = logger;
+            _tweetCommand = tweetCommand;
         }
 
-        public Task Consume(ConsumeContext<Tweet> context)
+        public async Task Consume(ConsumeContext<Tweet> context)
         {
             _logger.LogDebug($"Tweet id {context.Message.data.id} received for processing.");
 
-            // Perform business logic and save to data store on a new thread.
-            return Task.Run(() => 
-            {
-                System.Console.WriteLine();
-            });
+            await _tweetCommand.ExecuteAsync(context.Message);
         }
     }
 }

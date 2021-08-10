@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Vanacorps.TwitterClient.HttpClient\Vanacorps.TwitterClient.HttpClient.csproj" />
     <ProjectReference Include="..\Vanacorps.TwitterClient.TweetProcessor\Vanacorps.TwitterClient.TweetProcessor.csproj" />
     <ProjectReference Include="..\Vanacorps.TwitterClient.Persistence\Vanacorps.TwitterClient.Persistence.csproj" />
+    <ProjectReference Include="..\Vanacorps.TwitterClient.Application\Vanacorps.TwitterClient.Application.csproj" />
   </ItemGroup>
 
 </Project>

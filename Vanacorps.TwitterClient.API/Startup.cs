@@ -7,8 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Vanacorps.TwitterClient.Application.Commands;
+using Vanacorps.TwitterClient.Application.Contracts;
+using Vanacorps.TwitterClient.Domain;
 using Vanacorps.TwitterClient.HttpClient;
 using Vanacorps.TwitterClient.Persistence;
+using Vanacorps.TwitterClient.Persistence.Repositories;
 
 namespace Vanacorps.TwitterClient.API
 {
@@ -44,6 +48,10 @@ namespace Vanacorps.TwitterClient.API
             services.AddMassTransitHostedService(true);
 
             services.AddDbContext<TwitterClientDbContext>(opt => opt.UseInMemoryDatabase("TwitterStatisticsDb"));
+
+            services.AddTransient<ICommand<Tweet>, ProcessTweetCommand>();
+
+            services.AddScoped<IProcessedTweetRepository, ProcessedTweetRepository>();
 
             // Register stream client as a hosted service that will live through the application lifecycle
             services.AddHostedService<StreamingClient>();

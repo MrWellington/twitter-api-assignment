@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vanacorps.TwitterClient.Domain\Vanacorps.TwitterClient.Domain.csproj" />
+    <ProjectReference Include="..\Vanacorps.TwitterClient.Application\Vanacorps.TwitterClient.Application.csproj" />
   </ItemGroup>
 
 </Project>
