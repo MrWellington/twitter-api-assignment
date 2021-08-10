@@ -21,7 +21,13 @@ namespace Vanacorps.TwitterClient.TweetProcessor
 
         public Task Consume(ConsumeContext<Tweet> context)
         {
-            return Task.CompletedTask;
+            _logger.LogDebug($"Tweet id {context.Message.data.id} received for processing.");
+
+            // Perform business logic and save to data store on a new thread.
+            return Task.Run(() => 
+            {
+                System.Console.WriteLine();
+            });
         }
     }
 }

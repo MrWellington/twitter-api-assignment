@@ -1,20 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Vanacorps.TwitterClient.HttpClient;
-using Vanacorps.TwitterClient.TweetProcessor;
+using Vanacorps.TwitterClient.Persistence;
 
 namespace Vanacorps.TwitterClient.API
 {
@@ -30,9 +24,12 @@ namespace Vanacorps.TwitterClient.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Use MassTransit for messaging abstraction; loose coupling between stream listener and tweet processor
             services.AddMassTransit(x => 
             {
-                x.AddConsumer<Processor>();
+                x.AddConsumer<TweetProcessor.Processor>();
+
+                // Messaging abstraction configured here
                 x.UsingInMemory((ctx, cfg) => 
                 {
                     cfg.ConfigureEndpoints(ctx);
@@ -45,6 +42,10 @@ namespace Vanacorps.TwitterClient.API
             });
             services.AddHttpClient();
             services.AddMassTransitHostedService(true);
+
+            services.AddDbContext<TwitterClientDbContext>(opt => opt.UseInMemoryDatabase("TwitterStatisticsDb"));
+
+            // Register stream client as a hosted service that will live through the application lifecycle
             services.AddHostedService<StreamingClient>();
         }
 
