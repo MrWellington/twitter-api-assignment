@@ -7,7 +7,7 @@ namespace Vanacorps.TwitterClient.Application.Contracts
 {
     public interface ITopEmojisRepository
     {
-        Task UpdateTopEmojis(Dictionary<string, int> newEmojis);
-        Task<Dictionary<string, int>> GetTopEmojis();
+        Task UpdateTopEmojisAsync(Dictionary<string, int> newEmojis);
+        Task<List<TopEmojis>> GetTopEmojisAsync();
     }
 }

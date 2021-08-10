@@ -7,7 +7,7 @@ namespace Vanacorps.TwitterClient.Application.Contracts
 {
     public interface ITopDomainsRepository
     {
-        Task UpdateTopDomains(Dictionary<string, int> newDomains);
-        Task<Dictionary<string, int>> GetTopDomains();
+        Task UpdateTopDomainsAsync(Dictionary<string, int> newDomains);
+        Task<List<TopDomains>> GetTopDomainsAsync();
     }
 }

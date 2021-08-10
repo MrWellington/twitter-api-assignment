@@ -22,7 +22,7 @@ namespace Vanacorps.TwitterClient.Application.Commands
         {
             var newEmojiCounts = GetNewEmojiCounts(tweet.data.text);
 
-            await _repository.UpdateTopEmojis(newEmojiCounts);
+            await _repository.UpdateTopEmojisAsync(newEmojiCounts);
         }
 
         private Dictionary<string, int> GetNewEmojiCounts(string message)

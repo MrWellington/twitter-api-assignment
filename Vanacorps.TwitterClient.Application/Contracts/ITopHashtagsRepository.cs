@@ -7,7 +7,7 @@ namespace Vanacorps.TwitterClient.Application.Contracts
 {
     public interface ITopHashtagsRepository
     {
-        Task UpdateTopHashtags(Dictionary<string, int> newHashtags);
-        Task<Dictionary<string, int>> GetTopHashtags();
+        Task UpdateTopHashtagsAsync(Dictionary<string, int> newHashtags);
+        Task<List<TopHashtags>> GetTopHashtagsAsync();
     }
 }

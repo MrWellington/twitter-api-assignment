@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Vanacorps.TwitterClient.Domain;
+
 namespace Vanacorps.TwitterClient.Application
 {
     public class TweetReportDto
@@ -9,8 +12,8 @@ namespace Vanacorps.TwitterClient.Application
         public decimal PercentWithEmojis { get; set; }
         public decimal PercentWithUrls { get; set; }
         public decimal PercentWithPhotoUrls { get; set; }
-        public dynamic TopEmojis { get; set; }
-        public dynamic TopHashtags { get; set; }
-        public dynamic TopDomains { get; set; }
+        public List<TopEmojis> TopEmojis { get; set; }
+        public List<TopHashtags> TopHashtags { get; set; }
+        public List<TopDomains> TopDomains { get; set; }
     }
 }

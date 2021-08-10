@@ -22,7 +22,7 @@ namespace Vanacorps.TwitterClient.Application.Commands
         {
             var newDomainCounts = GetNewDomainCounts(tweet.data.text);
 
-            await _repository.UpdateTopDomains(newDomainCounts);
+            await _repository.UpdateTopDomainsAsync(newDomainCounts);
         }
 
         private Dictionary<string, int> GetNewDomainCounts(string message)

@@ -22,7 +22,7 @@ namespace Vanacorps.TwitterClient.Application.Commands
         {
             var newHashtagCounts = GetNewHashtagCounts(tweet.data.text);
 
-            await _repository.UpdateTopHashtags(newHashtagCounts);
+            await _repository.UpdateTopHashtagsAsync(newHashtagCounts);
         }
 
         private Dictionary<string, int> GetNewHashtagCounts(string message)

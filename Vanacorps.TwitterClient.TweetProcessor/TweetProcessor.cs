@@ -15,12 +15,22 @@ namespace Vanacorps.TwitterClient.TweetProcessor
     public class Processor : IConsumer<Tweet>
     {
         private readonly ILogger<Processor> _logger;
-        private readonly ICommand<Tweet> _tweetCommand;
+        private readonly IProcessTweetCommand _tweetCommand;
+        private readonly IUpdateTopDomainsCommand _domainsCommand;
+        private readonly IUpdateTopEmojisCommand _emojisCommand;
+        private readonly IUpdateTopHashtagsCommand _hashtagsCommand;
 
-        public Processor(ILogger<Processor> logger, ICommand<Tweet> tweetCommand)
+        public Processor(ILogger<Processor> logger, 
+            IProcessTweetCommand tweetCommand, 
+            IUpdateTopDomainsCommand domainsCommand, 
+            IUpdateTopEmojisCommand emojisCommand, 
+            IUpdateTopHashtagsCommand hashtagsCommand)
         {
             _logger = logger;
             _tweetCommand = tweetCommand;
+            _domainsCommand = domainsCommand;
+            _emojisCommand = emojisCommand;
+            _hashtagsCommand = hashtagsCommand;
         }
 
         // MassTransit message consumer that pops and processes tweets off queue
@@ -28,7 +38,17 @@ namespace Vanacorps.TwitterClient.TweetProcessor
         {
             _logger.LogDebug($"Tweet id {context.Message.data.id} received for processing.");
 
-            await _tweetCommand.ExecuteAsync(context.Message);
+            var newTweet = context.Message;
+
+            var processingTasks = new List<Task>
+            {
+                _tweetCommand.ExecuteAsync(newTweet),
+                _domainsCommand.ExecuteAsync(newTweet),
+                _emojisCommand.ExecuteAsync(newTweet),
+                _hashtagsCommand.ExecuteAsync(newTweet)
+            };
+
+            await Task.WhenAll(processingTasks);
         }
     }
 }
