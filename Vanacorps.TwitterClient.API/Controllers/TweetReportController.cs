@@ -20,10 +20,13 @@ namespace Vanacorps.TwitterClient.API.Controllers
             _logger = logger;
         }
 
-        // [HttpGet]
-        // public async Task<TweetReportDto> Get()
-        // {
-            
-        // }
+        [HttpGet]
+        public TweetReportDto Get()
+        {
+            return new TweetReportDto
+            {
+                TotalTweetCount = 11
+            };
+        }
     }
 }

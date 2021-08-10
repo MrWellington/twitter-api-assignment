@@ -6,9 +6,7 @@ namespace Vanacorps.TwitterClient.Application
     public class TweetReportDto
     {
         public int TotalTweetCount { get; set; }
-        public int TweetsPerSecond { get; set; }
-        public int TweetsPerMinute { get; set; }
-        public int TweetsPerHour { get; set; }
+        public TweetAveragesDto TweetAverages { get; set; }
         public decimal PercentWithEmojis { get; set; }
         public decimal PercentWithUrls { get; set; }
         public decimal PercentWithPhotoUrls { get; set; }
