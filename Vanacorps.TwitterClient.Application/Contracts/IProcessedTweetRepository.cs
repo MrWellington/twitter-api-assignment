@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vanacorps.TwitterClient.Domain;
 
@@ -7,9 +9,10 @@ namespace Vanacorps.TwitterClient.Application.Contracts
     {
         Task AddTweetAsync(ProcessedTweet tweet);
         Task<int> GetTweetCountAsync();
-        Task<float> GetEmojiPercent();
-        Task<float> GetUrlPercent();
-        Task<float> GetPhotoUrlPercent();
+        Task<IList<bool>> GetEmojiStatusAsync();
+        Task<IList<bool>> GetUrlStatusAsync();
+        Task<IList<bool>> GetPhotoUrlStatusAsync();
+        Task<IList<DateTime>> GetAllDateTimesAsync();
     }
 
 }

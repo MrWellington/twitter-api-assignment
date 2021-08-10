@@ -4,6 +4,7 @@ namespace Vanacorps.TwitterClient.Domain
 {
     public class TopDomains 
     {
-        public Dictionary<string, int> DomainCounts { get; set; }
+        public string Domain { get; set; }
+        public int Count { get; set; }
     }
 }

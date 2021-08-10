@@ -23,6 +23,7 @@ namespace Vanacorps.TwitterClient.TweetProcessor
             _tweetCommand = tweetCommand;
         }
 
+        // MassTransit message consumer that pops and processes tweets off queue
         public async Task Consume(ConsumeContext<Tweet> context)
         {
             _logger.LogDebug($"Tweet id {context.Message.data.id} received for processing.");

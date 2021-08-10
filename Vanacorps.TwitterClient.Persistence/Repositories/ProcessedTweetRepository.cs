@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Vanacorps.TwitterClient.Application.Contracts;
 using Vanacorps.TwitterClient.Domain;
 
@@ -19,24 +23,29 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<float> GetEmojiPercent()
+        public async Task<int> GetTweetCountAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.ProcessedTweets.CountAsync();
         }
 
-        public Task<float> GetPhotoUrlPercent()
+        public async Task<IList<DateTime>> GetAllDateTimesAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.ProcessedTweets.Select(u => u.ReceivedTime).ToListAsync();
         }
 
-        public Task<int> GetTweetCountAsync()
+        public async Task<IList<bool>> GetEmojiStatusAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.ProcessedTweets.Select(u => u.ContainsEmojis).ToListAsync();
         }
 
-        public Task<float> GetUrlPercent()
+        public async Task<IList<bool>> GetPhotoUrlStatusAsync()
         {
-            throw new System.NotImplementedException();
+            return await _context.ProcessedTweets.Select(u => u.ContainsPhotoUrl).ToListAsync();
+        }
+
+        public async Task<IList<bool>> GetUrlStatusAsync()
+        {
+            return await _context.ProcessedTweets.Select(u => u.ContainsUrl).ToListAsync();
         }
     }
 }
