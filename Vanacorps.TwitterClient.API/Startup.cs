@@ -49,9 +49,9 @@ namespace Vanacorps.TwitterClient.API
 
             services.AddDbContext<TwitterClientDbContext>(opt => opt.UseInMemoryDatabase("TwitterStatisticsDb"));
 
-            services.AddTransient<ICommand<Tweet>, ProcessTweetCommand>();
+            services.AddTransient<IProcessTweetCommand, ProcessTweetCommand>();
 
-            services.AddScoped<IProcessedTweetRepository, ProcessedTweetRepository>();
+            services.AddTransient<IProcessedTweetRepository, ProcessedTweetRepository>();
 
             // Register stream client as a hosted service that will live through the application lifecycle
             services.AddHostedService<StreamingClient>();

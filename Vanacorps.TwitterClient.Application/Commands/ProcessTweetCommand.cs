@@ -7,7 +7,7 @@ using Vanacorps.TwitterClient.Domain;
 
 namespace Vanacorps.TwitterClient.Application.Commands
 {
-    public class ProcessTweetCommand : ICommand<Tweet>
+    public class ProcessTweetCommand : IProcessTweetCommand
     {
         private readonly ILogger<ProcessTweetCommand> _logger;
         private readonly IProcessedTweetRepository _repository;
