@@ -38,8 +38,6 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
         {
             var emojiExists = await _context.TopEmojis.AnyAsync(e => e.Emoji == emoji);
 
-            using var transaction = _context.Database.BeginTransaction();
-
             if (!emojiExists)
             {
                 await _context.TopEmojis.AddAsync(new TopEmojis
@@ -54,8 +52,8 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
                 var existingRecord = _context.TopEmojis.Where(d => d.Emoji == emoji).Single();
                 existingRecord.Count += count;
             }
-
-            await transaction.CommitAsync();
+            
+            await _context.SaveChangesAsync();
         }
     }
 }

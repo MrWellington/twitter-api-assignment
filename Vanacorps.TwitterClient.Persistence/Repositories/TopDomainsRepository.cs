@@ -38,8 +38,6 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
         {
             var domainExists = await _context.TopDomains.AnyAsync(d => d.Domain == domain);
 
-            using var transaction = _context.Database.BeginTransaction();
-
             if (!domainExists)
             {
                 await _context.TopDomains.AddAsync(new TopDomains
@@ -54,7 +52,7 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
                 existingRecord.Count += count;
             }
 
-            await transaction.CommitAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

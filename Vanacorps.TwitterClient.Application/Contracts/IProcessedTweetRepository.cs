@@ -12,7 +12,7 @@ namespace Vanacorps.TwitterClient.Application.Contracts
         Task<IList<bool>> GetEmojiStatusAsync();
         Task<IList<bool>> GetUrlStatusAsync();
         Task<IList<bool>> GetPhotoUrlStatusAsync();
-        Task<IList<DateTime>> GetAllDateTimesAsync();
+        Task<List<ProcessedTweet>> GetAllTweetsAsync();
     }
 
 }

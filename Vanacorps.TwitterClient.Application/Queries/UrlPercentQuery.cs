@@ -17,6 +17,11 @@ namespace Vanacorps.TwitterClient.Application.Queries
         {
             var urlStatuses = await _repository.GetUrlStatusAsync();
 
+            if (urlStatuses.Count == 0)
+            {
+                return 0;
+            }
+
             int tweetsWithPhotos = urlStatuses.Select(p => p).Count();
 
             decimal percent = tweetsWithPhotos / urlStatuses.Count();

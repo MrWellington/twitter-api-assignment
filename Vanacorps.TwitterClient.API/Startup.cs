@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Vanacorps.TwitterClient.Application.Commands;
 using Vanacorps.TwitterClient.Application.Contracts;
+using Vanacorps.TwitterClient.Application.Queries;
 using Vanacorps.TwitterClient.Domain;
 using Vanacorps.TwitterClient.HttpClient;
 using Vanacorps.TwitterClient.Persistence;
@@ -58,6 +59,15 @@ namespace Vanacorps.TwitterClient.API
             services.AddTransient<ITopDomainsRepository, TopDomainsRepository>();
             services.AddTransient<ITopEmojisRepository, TopEmojisRepository>();
             services.AddTransient<ITopHashtagsRepository, TopHashtagsRepository>();
+
+            services.AddScoped<IAverageTweetQuery, AverageTweetQuery>();
+            services.AddScoped<IEmojiPercentQuery, EmojiPercentQuery>();
+            services.AddScoped<IPhotoUrlPercentQuery, PhotoUrlPercentQuery>();
+            services.AddScoped<ITopDomainsQuery, TopDomainsQuery>();
+            services.AddScoped<ITopEmojisQuery, TopEmojisQuery>();
+            services.AddScoped<ITopHashtagsQuery, TopHashtagsQuery>();
+            services.AddScoped<ITotalTweetQuery, TotalTweetQuery>();
+            services.AddScoped<IUrlPercentQuery, UrlPercentQuery>();
 
             // Register stream client as a hosted service that will live through the application lifecycle
             services.AddHostedService<StreamingClient>();

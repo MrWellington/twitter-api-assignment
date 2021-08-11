@@ -17,6 +17,11 @@ namespace Vanacorps.TwitterClient.Application.Queries
         {
             var emojiStatuses = await _repository.GetEmojiStatusAsync();
 
+            if (emojiStatuses.Count == 0)
+            {
+                return 0;
+            }
+
             int tweetsWithPhotos = emojiStatuses.Select(p => p).Count();
 
             decimal percent = tweetsWithPhotos / emojiStatuses.Count();

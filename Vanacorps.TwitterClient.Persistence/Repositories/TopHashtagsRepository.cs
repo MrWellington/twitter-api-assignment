@@ -38,8 +38,6 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
         {
             var hashtagExists = await _context.TopHashtags.AnyAsync(h => h.Hashtag == hashtag);
 
-            using var transaction = _context.Database.BeginTransaction();
-
             if (!hashtagExists)
             {
                 await _context.TopHashtags.AddAsync(new TopHashtags
@@ -55,7 +53,7 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
                 existingRecord.Count += count;
             }
 
-            await transaction.CommitAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

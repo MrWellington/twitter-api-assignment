@@ -28,9 +28,9 @@ namespace Vanacorps.TwitterClient.Persistence.Repositories
             return await _context.ProcessedTweets.CountAsync();
         }
 
-        public async Task<IList<DateTime>> GetAllDateTimesAsync()
+        public async Task<List<ProcessedTweet>> GetAllTweetsAsync()
         {
-            return await _context.ProcessedTweets.Select(u => u.ReceivedTime).ToListAsync();
+            return await _context.ProcessedTweets.ToListAsync();
         }
 
         public async Task<IList<bool>> GetEmojiStatusAsync()
