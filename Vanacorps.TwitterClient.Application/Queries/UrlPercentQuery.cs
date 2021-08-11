@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Vanacorps.TwitterClient.Application.Contracts;
@@ -22,12 +23,12 @@ namespace Vanacorps.TwitterClient.Application.Queries
                 return 0;
             }
 
-            int tweetsWithPhotos = urlStatuses.Select(p => p).Count();
+            decimal tweetsWithUrl = urlStatuses.Count(t => t);
 
-            decimal percent = tweetsWithPhotos / urlStatuses.Count();
+            decimal percent = tweetsWithUrl / (decimal)urlStatuses.Count();
             percent *= 100;
 
-            return percent;
+            return decimal.Round(percent, 2, MidpointRounding.AwayFromZero);
         }
     }
 }
