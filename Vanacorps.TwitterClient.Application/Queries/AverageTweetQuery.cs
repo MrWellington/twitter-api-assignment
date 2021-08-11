@@ -35,7 +35,7 @@ namespace Vanacorps.TwitterClient.Application.Queries
                 return 0;
             }
 
-            var binnedSeconds = tweetDates.GroupBy(x => x.ReceivedTime.ToString("HH:mm:ss")).Select(g => g.Count());
+            var binnedSeconds = tweetDates.GroupBy(x => x.ReceivedTime.ToString("dd-MM-yy HH:mm:ss")).Select(g => g.Count());
 
             decimal average = binnedSeconds.Sum() / binnedSeconds.Count();
 
@@ -49,7 +49,7 @@ namespace Vanacorps.TwitterClient.Application.Queries
                 return 0;
             }
 
-            var binnedMinutes = tweetDates.GroupBy(x => x.ReceivedTime.ToString("HH:mm")).Select(g => g.Count());
+            var binnedMinutes = tweetDates.GroupBy(x => x.ReceivedTime.ToString("dd-MM-yy HH:mm")).Select(g => g.Count());
 
             decimal average = binnedMinutes.Sum() / binnedMinutes.Count();
 
@@ -63,7 +63,7 @@ namespace Vanacorps.TwitterClient.Application.Queries
                 return 0;
             }
 
-            var binnedHours = tweetDates.GroupBy(x => x.ReceivedTime.ToString("HH")).Select(g => g.Count());
+            var binnedHours = tweetDates.GroupBy(x => x.ReceivedTime.ToString("dd-MM-yy HH")).Select(g => g.Count());
 
             decimal average = binnedHours.Sum() / binnedHours.Count();
 
