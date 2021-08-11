@@ -11,7 +11,7 @@ namespace Vanacorps.TwitterClient.Application
         private const string urlPattern = @"((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)";
 
         // Regex pattern to parse hashtags with alphanumeric text
-        private const string hashtagPattern = @"#[A-Za-z0-9]*";
+        private const string hashtagPattern = @"(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{1,30})(\b|\r)";
 
         public static Regex Emoji { get => new Regex(emojiPattern); }
 
