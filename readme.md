@@ -10,16 +10,16 @@ The solution is composed of the following projects, listed below along with a br
 
 * src
   * API
-    * Vanacorps.TwitterClient.API: ASP.NET Core API project acting as the application host and exposing an API controller to retrieve the tweet report.
+    * **Vanacorps.TwitterClient.API**: ASP.NET Core API project acting as the application host and exposing an API controller to retrieve the tweet report.
   * Core
-    * Vanacorps.TwitterClient.Domain: Collection of important business entities written as POCOs. Per clean architecture guidance all dependencies point inward towards this project.
-    * Vanacorps.TwitterClient.Application: Contains all business logic for the application, largely utilizing a basic [CQRS](https://martinfowler.com/bliki/CQRS.html) pattern implementation. Also contains contracts to invert dependencies from outer layers such as the infrastructure and API.
+    * **Vanacorps.TwitterClient.Domain**: Collection of important business entities written as POCOs. Per clean architecture guidance all dependencies point inward towards this project.
+    * **Vanacorps.TwitterClient.Application**: Contains all business logic for the application, largely utilizing a basic [CQRS](https://martinfowler.com/bliki/CQRS.html) pattern implementation. Also contains contracts to invert dependencies from outer layers such as the infrastructure and API.
   * Infrastructure
-    * Vanacorps.TwitterClient.Persistence: Encapsulates concerns related to data persistence. Utilizes EF Core, currently configured to use an in-memory database.
-    * Vanacorps.TwitterClient.HttpClient: Infrastructure project to encapsulate the HTTP client responsible for receiving tweets and placing them on a messaging queue. Utilizes MassTransit library as an abstraction around message sending, currently using an in-memory bus. Intended to be host-able separately from the app for scaling purposes.
-    * Vanacorps.TwitterClient.TweetProcessor: Infrastructure project to encapsulate the processing required to receive tweets from a messaging queue, process them, and send them to the data store. Utilizes MassTransit library as an abstraction around message consuming, currently using an in-memory bus. Intended to be host-able separately from the app for scaling purposes.
+    * **Vanacorps.TwitterClient.Persistence**: Encapsulates concerns related to data persistence. Utilizes EF Core, currently configured to use an in-memory database.
+    * **Vanacorps.TwitterClient.HttpClient**: Infrastructure project to encapsulate the HTTP client responsible for receiving tweets and placing them on a messaging queue. Utilizes MassTransit library as an abstraction around message sending, currently using an in-memory bus. Intended to be host-able separately from the app for scaling purposes.
+    * **Vanacorps.TwitterClient.TweetProcessor**: Infrastructure project to encapsulate the processing required to receive tweets from a messaging queue, process them, and send them to the data store. Utilizes MassTransit library as an abstraction around message consuming, currently using an in-memory bus. Intended to be host-able separately from the app for scaling purposes.
 * test
-  * Vanacorps.TwitterClient.Application.UnitTests: xUnit test project covering business logic in the application project.
+  * **Vanacorps.TwitterClient.Application.UnitTests**: xUnit test project covering business logic in the application project.
 
 ## Running locally
 
