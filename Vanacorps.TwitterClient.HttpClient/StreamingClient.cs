@@ -18,10 +18,10 @@ namespace Vanacorps.TwitterClient.HttpClient
         private readonly IHttpClientFactory _clientFactory;
         private readonly IConfiguration _configProvider;
         private readonly IBus _bus;
-        private System.Net.Http.HttpClient twitterClient;
         private const int MAX_BACKOFF_INTERVAL_SECONDS = 32;
         private int retrySeconds = 2;
 
+        // Class to manage streaming client through the lifecycle of the application.
         public StreamingClient(ILogger<StreamingClient> logger, IHttpClientFactory clientFactory, IConfiguration configProvider, IBus bus)
         {
             _logger = logger;
@@ -36,10 +36,11 @@ namespace Vanacorps.TwitterClient.HttpClient
             _logger.LogInformation("Initialize Twitter streaming API client.");
 
             var twitterClient = GetHttpClient();
-            var httpRequest = GetHttpRequestMessage();
 
             while (!cancellationToken.IsCancellationRequested)
             {
+                var httpRequest = GetHttpRequestMessage();
+
                 try
                 {
                     _logger.LogInformation("Creating the streaming connection.");

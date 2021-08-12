@@ -20,10 +20,11 @@ namespace Vanacorps.TwitterClient.TweetProcessor
         private readonly IUpdateTopEmojisCommand _emojisCommand;
         private readonly IUpdateTopHashtagsCommand _hashtagsCommand;
 
-        public Processor(ILogger<Processor> logger, 
-            IProcessTweetCommand tweetCommand, 
-            IUpdateTopDomainsCommand domainsCommand, 
-            IUpdateTopEmojisCommand emojisCommand, 
+        // Class to processes tweets from a messaging service
+        public Processor(ILogger<Processor> logger,
+            IProcessTweetCommand tweetCommand,
+            IUpdateTopDomainsCommand domainsCommand,
+            IUpdateTopEmojisCommand emojisCommand,
             IUpdateTopHashtagsCommand hashtagsCommand)
         {
             _logger = logger;
@@ -40,15 +41,30 @@ namespace Vanacorps.TwitterClient.TweetProcessor
 
             var newTweet = context.Message;
 
-            var processingTasks = new List<Task>
+            try
             {
-                _tweetCommand.ExecuteAsync(newTweet),
-                _domainsCommand.ExecuteAsync(newTweet),
-                _emojisCommand.ExecuteAsync(newTweet),
-                _hashtagsCommand.ExecuteAsync(newTweet)
-            };
+                var processingTasks = new List<Task>
+                {
+                    _tweetCommand.ExecuteAsync(newTweet),
+                    _domainsCommand.ExecuteAsync(newTweet),
+                    _emojisCommand.ExecuteAsync(newTweet),
+                    _hashtagsCommand.ExecuteAsync(newTweet)
+                };
 
-            await Task.WhenAll(processingTasks);
+                await Task.WhenAll(processingTasks);
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var e in ae.Flatten().InnerExceptions)
+                {
+                    _logger.LogError(e, "Error occurred processing tweet: ");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred processing tweet: ");
+            }
+
         }
     }
 }
