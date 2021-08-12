@@ -19,6 +19,8 @@ namespace Vanacorps.TwitterClient.Application.Commands
 
         public async Task ExecuteAsync(Tweet tweet)
         {
+            _logger.LogDebug("Execute ProcessTweetCommand");
+
             var pt = new ProcessedTweet
             {
                 ID = tweet.data.id,

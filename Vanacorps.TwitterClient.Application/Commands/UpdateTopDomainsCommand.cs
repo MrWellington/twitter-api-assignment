@@ -20,6 +20,8 @@ namespace Vanacorps.TwitterClient.Application.Commands
 
         public async Task ExecuteAsync(Tweet tweet)
         {
+            _logger.LogDebug("Execute UpdateTopDomainsCommand");
+
             var newDomainCounts = GetNewDomainCounts(tweet.data.text);
 
             await _repository.UpdateTopDomainsAsync(newDomainCounts);

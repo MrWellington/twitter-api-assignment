@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Vanacorps.TwitterClient.Application.Commands;
 using Vanacorps.TwitterClient.Application.Contracts;
@@ -16,7 +17,7 @@ namespace Vanacorps.TwitterClient.Application.UnitTests.Commands
         {
             Mock<ITopHashtagsRepository> mockRepo = new Mock<ITopHashtagsRepository>();
 
-            var command = new UpdateTopHashtagsCommand(null, mockRepo.Object);
+            var command = new UpdateTopHashtagsCommand(Mock.Of<ILogger<UpdateTopHashtagsCommand>>(), mockRepo.Object);
 
             await command.ExecuteAsync(new Tweet
             {
@@ -36,7 +37,7 @@ namespace Vanacorps.TwitterClient.Application.UnitTests.Commands
         {
             Mock<ITopHashtagsRepository> mockRepo = new Mock<ITopHashtagsRepository>();
 
-            var command = new UpdateTopHashtagsCommand(null, mockRepo.Object);
+            var command = new UpdateTopHashtagsCommand(Mock.Of<ILogger<UpdateTopHashtagsCommand>>(), mockRepo.Object);
 
             await command.ExecuteAsync(new Tweet
             {
@@ -57,7 +58,7 @@ namespace Vanacorps.TwitterClient.Application.UnitTests.Commands
         {
             Mock<ITopHashtagsRepository> mockRepo = new Mock<ITopHashtagsRepository>();
 
-            var command = new UpdateTopHashtagsCommand(null, mockRepo.Object);
+            var command = new UpdateTopHashtagsCommand(Mock.Of<ILogger<UpdateTopHashtagsCommand>>(), mockRepo.Object);
 
             await command.ExecuteAsync(new Tweet
             {

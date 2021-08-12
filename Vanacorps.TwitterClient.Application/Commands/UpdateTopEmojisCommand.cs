@@ -20,6 +20,8 @@ namespace Vanacorps.TwitterClient.Application.Commands
 
         public async Task ExecuteAsync(Tweet tweet)
         {
+            _logger.LogDebug("Execute UpdateTopEmojisCommand");
+
             var newEmojiCounts = GetNewEmojiCounts(tweet.data.text);
 
             await _repository.UpdateTopEmojisAsync(newEmojiCounts);

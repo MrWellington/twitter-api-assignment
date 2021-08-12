@@ -20,6 +20,8 @@ namespace Vanacorps.TwitterClient.Application.Commands
 
         public async Task ExecuteAsync(Tweet tweet)
         {
+            _logger.LogDebug("Execute UpdateTopHashtagsCommand");
+
             var newHashtagCounts = GetNewHashtagCounts(tweet.data.text);
 
             await _repository.UpdateTopHashtagsAsync(newHashtagCounts);
